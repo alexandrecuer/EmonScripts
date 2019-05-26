@@ -4,6 +4,12 @@ source config.ini
 echo "-------------------------------------------------------------"
 echo "Setup the Mariadb server (MYSQL)"
 echo "-------------------------------------------------------------"
+if [ "$platform" = "ubuntu" ]
+then
+  sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+  sudo add-apt-repository 'deb [arch=amd64] http://mirror.zol.co.zw/mariadb/repo/10.3/ubuntu bionic main'
+fi
+
 sudo apt-get install -y mariadb-server mysql-client
 
 # Secure mysql

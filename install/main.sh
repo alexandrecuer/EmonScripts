@@ -41,6 +41,20 @@ echo "-------------------------------------------------------------"
 sudo apt-get install -y git build-essential python-pip python-dev gettext
 echo "-------------------------------------------------------------"
 
+echo "Machine is $platform"
+echo "emonSD_pi_env value is $emonSD_pi_env"
+echo "php version going to be installed is $php_version"
+echo "php packets are $php_core $php_lib $php_db php_pkts"
+echo "emoncms git is ${git_dir[emoncms_git]}"
+echo "If all is fine, press any key to continue"
+while [ true ] ; do
+read -t 3 -n 1
+if [ $? = 0 ] ; then
+break;
+fi
+done
+
+
 if [ "$install_apache" = true ]; then $usrdir/EmonScripts/install/apache.sh; fi
 if [ "$install_mysql" = true ]; then $usrdir/EmonScripts/install/mysql.sh; fi
 if [ "$install_php" = true ]; then $usrdir/EmonScripts/install/php.sh; fi

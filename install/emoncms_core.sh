@@ -10,7 +10,7 @@ sudo chown $user /var/www
 
 # Install emoncms core repository with git
 if [ ! -d $emoncms_www ]; then
-    cd /var/www && git clone -b $emoncms_core_branch https://github.com/emoncms/emoncms.git
+    cd /var/www && git clone -b $emoncms_core_branch ${git_dir[emoncms_git]}
     cd
 else
     echo "- emoncms already installed"
@@ -69,6 +69,14 @@ for service in "emoncms_mqtt" "feedwriter" "service-runner"; do
     $usrdir/EmonScripts/common/install_emoncms_service.sh $servicepath $service
 done
 echo
+
+if [ "$platform" != "rpi" ]
+then
+  echo "to finish the install, run sudo systemctl edit service-runner.service"
+  echo "this will open a blank file. Add inside the following two lines, assuming you will run the service-runner as root: "
+  echo "[Service]"
+  echo "User="
+fi
 
 # Sudoers entry (review)
 sudo visudo -cf $usrdir/EmonScripts/sudoers.d/emoncms-rebootbutton && \
