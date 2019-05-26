@@ -10,7 +10,7 @@ for module in ${!emoncms_modules[@]}; do
     branch=${emoncms_modules[$module]}
     if [ ! -d $module ]; then
         echo "- Installing module: $module"
-        git clone -b $branch https://github.com/emoncms/$module.git
+        git clone -b $branch ${git_repo[$module]}
     else
         echo "- Module $module already exists"
     fi
@@ -39,7 +39,7 @@ for module in ${!emoncms_modules_usrdir[@]}; do
     branch=${emoncms_modules_usrdir[$module]}
     if [ ! -d $module ]; then
         echo "- Installing module: $module"
-        git clone -b $branch https://github.com/emoncms/$module.git
+        git clone -b $branch ${git_repo[$module]}
         # If module contains emoncms UI folder, symlink to $emoncms_www/Modules
         if [ -d $usrdir/modules/$module/$module-module ]; then
             echo "-- UI directory symlink"
