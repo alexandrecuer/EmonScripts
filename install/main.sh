@@ -44,12 +44,14 @@ echo "-------------------------------------------------------------"
 echo "Machine is $platform"
 echo "emonSD_pi_env value is $emonSD_pi_env"
 echo "php version going to be installed is $php_version"
-echo "php packets are $php_core $php_lib $php_db php_pkts"
+echo "php packets are $php_core $php_lib $php_db $php_pkts"
 echo "emoncms git is ${git_repo[emoncms_core]}"
 echo "The following packages will be installed :"
+(echo "NAME GIT_URL"
 for module in ${!git_repo[@]}; do
-  echo $module
-done
+  echo "$module ${git_repo[$module]}"
+done) | column -t
+
 echo "If all is fine, press any key to continue"
 while [ true ] ; do
 read -t 3 -n 1
