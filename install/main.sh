@@ -14,6 +14,18 @@
 # Format as documentation
 
 #!/bin/bash
+
+# CHECK IF BASICS ARE ON BOARD
+basics=( lsb-release git bsdmainutils )
+for i in ${!basics[*]} ; do
+    if [[ $(dpkg -l | grep ${basics[$i]} ) ]]
+    then
+      echo "${basics[$i]} package : already installed"
+    else
+      $(sudo apt-get install ${basics[$i]})
+    fi
+done
+
 source config.ini
 
 echo "-------------------------------------------------------------"

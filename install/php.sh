@@ -6,6 +6,7 @@ echo "Install PHP"
 echo "-------------------------------------------------------------"
 
 sudo apt-get install -y $php_core
+sudo apt-get install -y $php_pear
 
 if [ "$install_apache" = true ]; then
     sudo apt-get install -y $php_lib
