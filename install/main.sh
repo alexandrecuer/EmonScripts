@@ -15,6 +15,20 @@
 
 #!/bin/bash
 
+function wait_until_key_pressed() {
+  echo "If all is fine, press any key to continue"
+  while [ true ] ; do
+    read -t 3 -n 1
+    if [ $? = 0 ] ; then
+      break;
+    fi
+    # 2 is CRL-C
+    if [ $? = 2 ] ; then
+      exit;
+    fi
+  done
+}
+
 # CHECK IF BASICS ARE ON BOARD
 basics=( lsb-release git bsdmainutils )
 for i in ${!basics[*]} ; do
@@ -22,9 +36,11 @@ for i in ${!basics[*]} ; do
     then
       echo "${basics[$i]} package : already installed"
     else
-      $(sudo apt-get install ${basics[$i]})
+      sudo apt-get install ${basics[$i]}
     fi
 done
+
+wait_until_key_pressed
 
 source config.ini
 
@@ -64,14 +80,7 @@ for module in ${!git_repo[@]}; do
   echo "$module ${git_repo[$module]}"
 done) | column -t
 
-echo "If all is fine, press any key to continue"
-while [ true ] ; do
-read -t 3 -n 1
-if [ $? = 0 ] ; then
-break;
-fi
-done
-
+wait_until_key_pressed
 
 if [ "$install_apache" = true ]; then $usrdir/EmonScripts/install/apache.sh; fi
 if [ "$install_mysql" = true ]; then $usrdir/EmonScripts/install/mysql.sh; fi
