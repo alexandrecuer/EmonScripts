@@ -15,7 +15,21 @@
 
 #!/bin/bash
 
-source config.ini
+#user basic interaction
+#waiting for $3 chars injected in $2 var
+function wait_until_key_pressed {
+  printf "$1"
+  while [ true ] ; do
+    read -t 3 -n $3 $2
+    if [ $? = 0 ] ; then
+      break;
+    fi
+    # 2 is CRL-C
+    if [ $? = 2 ] ; then
+      exit;
+    fi
+  done
+}
 
 # CHECK IF BASICS ARE ON BOARD
 basics=( lsb-release git bsdmainutils )
@@ -48,6 +62,19 @@ then
   sudo sed -i "s/^php_version=[0-9].[0-9]/php_version=$user_php_version/" config.ini
 fi
 
+source config.ini
+echo "Machine is $os"
+echo "emonSD_pi_env value is $emonSD_pi_env"
+echo "php version going to be installed is $php_version"
+echo "php packets are $php_core $php_lib $php_db $php_pear $php_pkts $php_mcrypt"
+echo "emoncms git is ${git_repo[emoncms_core]}"
+echo "The following packages will be installed :"
+(echo "NAME GIT_URL GIT_BRANCH"
+for module in ${!git_repo[@]}; do
+  echo "$module ${git_repo[$module]} ${git_branch[$module]}"
+done) | column -t
+
+wait_until_key_pressed "press any key to continue or ctrl-C to abort\n" "" 1
 
 echo "-------------------------------------------------------------"
 echo "EmonSD Install"
@@ -73,19 +100,6 @@ fi
 echo "-------------------------------------------------------------"
 sudo apt-get install -y git build-essential python-pip python-dev gettext
 echo "-------------------------------------------------------------"
-
-echo "Machine is $os"
-echo "emonSD_pi_env value is $emonSD_pi_env"
-echo "php version going to be installed is $php_version"
-echo "php packets are $php_core $php_lib $php_db $php_pear $php_pkts $php_mcrypt"
-echo "emoncms git is ${git_repo[emoncms_core]}"
-echo "The following packages will be installed :"
-(echo "NAME GIT_URL"
-for module in ${!git_repo[@]}; do
-  echo "$module ${git_repo[$module]}"
-done) | column -t
-
-wait_until_key_pressed "press any key to continue or ctrl-C to abort\n" "" 1
 
 if [ "$install_apache" = true ]; then $usrdir/EmonScripts/install/apache.sh; fi
 if [ "$install_mysql" = true ]; then $usrdir/EmonScripts/install/mysql.sh; fi
