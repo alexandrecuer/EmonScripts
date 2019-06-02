@@ -20,7 +20,8 @@
 function wait_until_key_pressed {
   printf "$1"
   while [ true ] ; do
-    read -t 3 -n $3 $2
+    #read -t 3 -n $3 $2
+    read -n $3 $2
     if [ $? = 0 ] ; then
       break;
     fi
