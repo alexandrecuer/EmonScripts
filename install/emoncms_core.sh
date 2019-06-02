@@ -68,15 +68,6 @@ for service in "emoncms_mqtt" "feedwriter" "service-runner"; do
     servicepath=$emoncms_www/scripts/services/$service/$service.service
     $usrdir/EmonScripts/common/install_emoncms_service.sh $servicepath $service
 done
-echo
-
-if [ $emonSD_pi_env == 0 ]
-then
-  printf "you are not on a raspberry - to finish the install, run sudo systemctl edit service-runner.service\n"
-  printf "this will open a blank file. Add inside the following two lines, assuming you will run the service-runner as root: \n"
-  printf "[Service]\n"
-  printf "User=\n"
-fi
 
 # Sudoers entry (review)
 sudo visudo -cf $usrdir/EmonScripts/sudoers.d/emoncms-rebootbutton && \
