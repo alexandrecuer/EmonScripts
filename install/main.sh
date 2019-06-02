@@ -49,16 +49,16 @@ message+="0=noinstall 1=install\n"
 wait_until_key_pressed "$message" user_emonSD_pi_env 1
 if [[ $user_emonSD_pi_env == 1 || $user_emonSD_pi_env == 0 ]]
 then
-  echo "modyfing config.ini with emonSD_pi_env=$user_emonSD_pi_env"
+  echo "\nmodyfing config.ini with emonSD_pi_env=$user_emonSD_pi_env"
   sudo sed -i "s/^emonSD_pi_env=[0-9]/emonSD_pi_env=$user_emonSD_pi_env/" config.ini
 fi
 
 message="\nwhich php version do yu want to install ?\n"
-message+="7.0 for raspberry or debian 7.2 for ubuntu for example\n"
+message+="for exemple 7.0 for raspberry or debian\n7.2 for ubuntu18.04\n"
 wait_until_key_pressed "$message" user_php_version 3
 if [[ $user_php_version == [0-9].[0-9] ]]
 then
-  echo "modyfing config.ini with php_version=$user_php_version"
+  echo "\nmodyfing config.ini with php_version=$user_php_version"
   sudo sed -i "s/^php_version=[0-9].[0-9]/php_version=$user_php_version/" config.ini
 fi
 
