@@ -70,12 +70,12 @@ for service in "emoncms_mqtt" "feedwriter" "service-runner"; do
 done
 echo
 
-if [ "$platform" != "rpi" ]
+if [ $emonSD_pi_env == 0 ]
 then
-  echo "to finish the install, run sudo systemctl edit service-runner.service"
-  echo "this will open a blank file. Add inside the following two lines, assuming you will run the service-runner as root: "
-  echo "[Service]"
-  echo "User="
+  printf "you are not on a raspberry - to finish the install, run sudo systemctl edit service-runner.service\n"
+  printf "this will open a blank file. Add inside the following two lines, assuming you will run the service-runner as root: \n"
+  printf "[Service]\n"
+  printf "User=\n"
 fi
 
 # Sudoers entry (review)

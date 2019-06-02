@@ -2,7 +2,7 @@
 # RaspberryPi Strech Build Script
 # Emoncms, Emoncms Modules, EmonHub & dependencies
 #
-# Tested with: Raspbian Strech
+# Tested with: Raspbian Strech, Ubuntu18.04LTS, dietpi
 # Date: 19 March 2019
 #
 # Status: Work in Progress
@@ -15,19 +15,7 @@
 
 #!/bin/bash
 
-function wait_until_key_pressed() {
-  echo "If all is fine, press any key to continue"
-  while [ true ] ; do
-    read -t 3 -n 1
-    if [ $? = 0 ] ; then
-      break;
-    fi
-    # 2 is CRL-C
-    if [ $? = 2 ] ; then
-      exit;
-    fi
-  done
-}
+source config.ini
 
 # CHECK IF BASICS ARE ON BOARD
 basics=( lsb-release git bsdmainutils )
@@ -40,9 +28,26 @@ for i in ${!basics[*]} ; do
     fi
 done
 
-wait_until_key_pressed
+wait_until_key_pressed "basic packages ready - press any key to continue or ctrl-C to abort\n" "" 1
 
-source config.ini
+message="Do yu want to install specific scripts for the raspberry platform ?\n"
+message+="0=noinstall 1=install\n"
+wait_until_key_pressed "$message" user_emonSD_pi_env 1
+if [[ $user_emonSD_pi_env == 1 || $user_emonSD_pi_env == 0 ]]
+then
+  echo "modyfing config.ini with emonSD_pi_env=$user_emonSD_pi_env"
+  sudo sed -i "s/^emonSD_pi_env=[0-9]/emonSD_pi_env=$user_emonSD_pi_env/" config.ini
+fi
+
+message="\nwhich php version do yu want to install ?\n"
+message+="7.0 for raspberry or debian 7.2 for ubuntu for example\n"
+wait_until_key_pressed "$message" user_php_version 3
+if [[ $user_php_version == [0-9].[0-9] ]]
+then
+  echo "modyfing config.ini with php_version=$user_php_version"
+  sudo sed -i "s/^php_version=[0-9].[0-9]/php_version=$user_php_version/" config.ini
+fi
+
 
 echo "-------------------------------------------------------------"
 echo "EmonSD Install"
@@ -69,10 +74,10 @@ echo "-------------------------------------------------------------"
 sudo apt-get install -y git build-essential python-pip python-dev gettext
 echo "-------------------------------------------------------------"
 
-echo "Machine is $platform"
+echo "Machine is $os"
 echo "emonSD_pi_env value is $emonSD_pi_env"
 echo "php version going to be installed is $php_version"
-echo "php packets are $php_core $php_lib $php_db $php_pkts"
+echo "php packets are $php_core $php_lib $php_db $php_pear $php_pkts $php_mcrypt"
 echo "emoncms git is ${git_repo[emoncms_core]}"
 echo "The following packages will be installed :"
 (echo "NAME GIT_URL"
@@ -80,7 +85,7 @@ for module in ${!git_repo[@]}; do
   echo "$module ${git_repo[$module]}"
 done) | column -t
 
-wait_until_key_pressed
+wait_until_key_pressed "press any key to continue or ctrl-C to abort\n" "" 1
 
 if [ "$install_apache" = true ]; then $usrdir/EmonScripts/install/apache.sh; fi
 if [ "$install_mysql" = true ]; then $usrdir/EmonScripts/install/mysql.sh; fi

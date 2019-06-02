@@ -5,6 +5,15 @@ echo "-------------------------------------------------------------"
 echo "Install PHP"
 echo "-------------------------------------------------------------"
 
+if [[ $php_version == "7.0" ]]
+then
+  php_core="${php_core//php/php$php_version}"
+  php_lib="${php_lib//php/php$php_version}"
+  php_db="${php_db//php/php$php_version}"
+  php_pkts="${php_pkts//php/php$php_version}"
+  php_mcrypt="${php_mcrypt//php/php$php_version}"
+fi
+
 sudo apt-get install -y $php_core
 sudo apt-get install -y $php_pear
 
@@ -20,7 +29,7 @@ sudo apt-get install -y $php_pkts
 
 sudo pecl channel-update pecl.php.net
 
-if [ "$platform" = "ubuntu" ]
+if [ $php_version == "7.2" ]
 then
   sudo apt install -y libmcrypt-dev
   #sudo pecl channel-update pecl.php.net
