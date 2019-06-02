@@ -116,6 +116,8 @@ then
   printf "this will open a blank file. Add inside the following two lines, assuming you will run the service-runner as root: \n"
   printf "[Service]\n"
   printf "User=\n"
+  printf "then do sudo systemctl daemon-reload\n"
+  printf "and sudo systemctl restart service-runner.service\n"
 fi
 
 if [ "$emonSD_pi_env" = "1" ]; then
