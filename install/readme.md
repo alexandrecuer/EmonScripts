@@ -4,14 +4,11 @@ The following build script is currently development in progress. It is already m
 
 **Todo 1st release (Target: Late May 2019)**
 
-- finalise emoncms log locations i.e: /var/log/emon/emoncms/sync.log
-- update emoncms & modules with configurable log directory paths for sync/update etc.
 - finalise logrotate config
 
 **Todo 2nd release**
 
-- fix flexible emoncms_core install location (currently /var/www/emoncms symlinked to /var/www/html)
-- review /var/www/html/emoncms symlink
+- SSL https://community.openenergymonitor.org/t/emonsd-next-steps-filesystem-logrotate/10693/188
 
 The following build script can be used to build a fully fledged emoncms installation on debian operating systems, including: installation of LAMP server and related packages, redis, mqtt, emoncms core, emoncms modules, emonhub and if applicable: raspberrypi support for serial port and wifi access point.
 
