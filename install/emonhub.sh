@@ -8,9 +8,9 @@ cd $usrdir
 
 if [ ! -d $usrdir/emonhub ]; then
     git clone -b ${git_branch[emonhub]} ${git_repo[emonhub]}
-    cd emonhub
-    git checkout env_example
-    cd $usrdir
+    #cd emonhub
+    #git checkout env_example
+    #cd $usrdir
 else
     echo "- emonhub repository already installed"
     git pull
