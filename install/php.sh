@@ -27,10 +27,20 @@ fi
 
 sudo apt-get install -y $php_pkts
 
+# in case of an errored version given by the user, we check the version
+# at this stage, php cli has been successfully installed
+installed_php_version=$(php -r 'echo substr(phpversion(),0,3);')
+if [ $php_version != $installed_php_version ]
+then
+  echo 'CORRECTING PHP VERSION in config.ini'
+  sudo sed -i "s/^php_version=[0-9].[0-9]/php_version=$installed_php_version/" config.ini
+fi
+
 sudo pecl channel-update pecl.php.net
 
 if [ $php_version == "7.2" ]
 then
+  #DEPRECATED : mcrypt is no more maintained > should use sodium
   sudo apt install -y libmcrypt-dev
   #sudo pecl channel-update pecl.php.net
   sudo pecl install mcrypt-1.0.1

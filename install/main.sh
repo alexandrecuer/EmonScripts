@@ -63,6 +63,49 @@ then
   sudo sed -i "s/^php_version=[0-9].[0-9]/php_version=$user_php_version/" config.ini
 fi
 
+if [[ $user_emonSD_pi_env ==1 ]]
+then
+  message="Do yu want to install lcd support ?\n"
+  message+="0=noinstall (raspberry with no lcd screen) 1=install\n"
+  wait_until_key_pressed "$message" user_choice 1
+  if [[ $user_choice == 1 ]]
+  then
+    printf "\nmodyfing config.ini with install_emonpilcd=true"
+    sudo sed -i "s/^install_emonpilcd=[truefalse]*/install_emonpilcd=true/" config.ini
+  fi
+  if [[ $user_choice == 0 ]]
+  then
+    printf "\nmodyfing config.ini with install_emonpilcd=false"
+    sudo sed -i "s/^install_emonpilcd=[truefalse]*/install_emonpilcd=false/" config.ini
+  fi
+  message="Do yu want to install wifi support ?\n"
+  message+="0=noinstall 1=install\n"
+  wait_until_key_pressed "$message" user_choice 1
+  if [[ $user_choice == 1 ]]
+  then
+    printf "\nmodyfing config.ini with install_wifiap=true"
+    sudo sed -i "s/^install_wifiap=[truefalse]*/install_wifiap=true/" config.ini
+  fi
+  if [[ $user_choice == 0 ]]
+  then
+    printf "\nmodyfing config.ini with install_wifiap=false"
+    sudo sed -i "s/^install_wifiap=[truefalse]*/install_wifiap=false/" config.ini
+  fi
+  message="Do yu want to install radio 868 Mhz support (RFM2PI) ?\n"
+  message+="0=noinstall 1=install\n"
+  wait_until_key_pressed "$message" user_choice 1
+  if [[ $user_choice == 1 ]]
+  then
+    printf "\nmodyfing config.ini with install_firmware=true"
+    sudo sed -i "s/^install_firmware=[truefalse]*/install_firmware=true/" config.ini
+  fi
+  if [[ $user_choice == 0 ]]
+  then
+    printf "\nmodyfing config.ini with install_firmware=false"
+    sudo sed -i "s/^install_firmware=[truefalse]*/install_firmware=false/" config.ini
+  fi
+fi
+
 source config.ini
 echo "Machine is $os"
 echo "emonSD_pi_env value is $emonSD_pi_env"
