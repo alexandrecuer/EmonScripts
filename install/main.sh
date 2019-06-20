@@ -63,9 +63,9 @@ then
   sudo sed -i "s/^php_version=[0-9].[0-9]/php_version=$user_php_version/" config.ini
 fi
 
-if [[ $user_emonSD_pi_env ==1 ]]
+if [[ $user_emonSD_pi_env == 1 ]]
 then
-  message="Do yu want to install lcd support ?\n"
+  message="\nDo yu want to install lcd support ?\n"
   message+="0=noinstall (raspberry with no lcd screen) 1=install\n"
   wait_until_key_pressed "$message" user_choice 1
   if [[ $user_choice == 1 ]]
@@ -78,7 +78,7 @@ then
     printf "\nmodyfing config.ini with install_emonpilcd=false"
     sudo sed -i "s/^install_emonpilcd=[truefalse]*/install_emonpilcd=false/" config.ini
   fi
-  message="Do yu want to install wifi support ?\n"
+  message="\nDo yu want to install wifi support ?\n"
   message+="0=noinstall 1=install\n"
   wait_until_key_pressed "$message" user_choice 1
   if [[ $user_choice == 1 ]]
@@ -91,7 +91,7 @@ then
     printf "\nmodyfing config.ini with install_wifiap=false"
     sudo sed -i "s/^install_wifiap=[truefalse]*/install_wifiap=false/" config.ini
   fi
-  message="Do yu want to install radio 868 Mhz support (RFM2PI) ?\n"
+  message="\nDo yu want to install radio 868 Mhz support (RFM2PI) ?\n"
   message+="0=noinstall 1=install\n"
   wait_until_key_pressed "$message" user_choice 1
   if [[ $user_choice == 1 ]]
@@ -107,12 +107,12 @@ then
 fi
 
 source config.ini
-echo "Machine is $os"
-echo "emonSD_pi_env value is $emonSD_pi_env"
-echo "php version going to be installed is $php_version"
-echo "php packets are $php_core $php_lib $php_db $php_pear $php_pkts $php_mcrypt"
-echo "emoncms git is ${git_repo[emoncms_core]}"
-echo "The following packages will be installed :"
+printf "\nMachine is $os"
+printf "\nemonSD_pi_env value is $emonSD_pi_env"
+printf "\nphp version going to be installed is $php_version"
+printf "\nphp packets are $php_core $php_lib $php_db $php_pear $php_pkts $php_mcrypt"
+printf "\nemoncms git is ${git_repo[emoncms_core]}"
+printf "\nThe following packages will be installed :\n"
 (echo "NAME GIT_URL GIT_BRANCH"
 for module in ${!git_repo[@]}; do
   echo "$module ${git_repo[$module]} ${git_branch[$module]}"

@@ -38,15 +38,18 @@ fi
 
 sudo pecl channel-update pecl.php.net
 
-if [ $php_version == "7.2" ]
+if [ $installed_php_version == "7.2" ]
 then
   #DEPRECATED : mcrypt is no more maintained > should use sodium
   sudo apt install -y libmcrypt-dev
   #sudo pecl channel-update pecl.php.net
   sudo pecl install mcrypt-1.0.1
   # Add mcrypt to php mods available
-  printf "extension=mcrypt.so" | sudo tee /etc/php/$php_version/mods-available/mcrypt.ini 1>&2
+  printf "extension=mcrypt.so" | sudo tee /etc/php/$installed_php_version/mods-available/mcrypt.ini 1>&2
   sudo phpenmod mcrypt
-else
+fi
+
+if [ $installed_php_version == "7.0" ]
+then
   sudo apt-get install -y $php_mcrypt
 fi
