@@ -4,23 +4,26 @@ source config.ini
 echo "-------------------------------------------------------------"
 echo "emonHub install"
 echo "-------------------------------------------------------------"
-cd $openenergymonitor_dir
+cd $usrdir
 
-if [ ! -d $openenergymonitor_dir/emonhub ]; then
+if [ ! -d $usrdir/emonhub ]; then
     git clone -b ${git_branch[emonhub]} ${git_repo[emonhub]}
+    #cd emonhub
+    #git checkout env_example
+    #cd $usrdir
 else
     echo "- emonhub repository already installed"
     git pull
 fi
 
-if [ -f $openenergymonitor_dir/emonhub/install.sh ]; then
-    $openenergymonitor_dir/emonhub/install.sh $emonSD_pi_env
+if [ -f $usrdir/emonhub/install.sh ]; then
+    $usrdir/emonhub/install.sh $emonSD_pi_env
 else
-    echo "ERROR: $openenergymonitor_dir/emonhub/install.sh script does not exist"
+    echo "ERROR: $usrdir/emonhub/install.sh script does not exist"
 fi
 
 # Sudoers entry (review!)
-sudo visudo -cf $openenergymonitor_dir/EmonScripts/sudoers.d/emonhub-sudoers && \
-sudo cp $openenergymonitor_dir/EmonScripts/sudoers.d/emonhub-sudoers /etc/sudoers.d/
+sudo visudo -cf $usrdir/EmonScripts/sudoers.d/emonhub-sudoers && \
+sudo cp $usrdir/EmonScripts/sudoers.d/emonhub-sudoers /etc/sudoers.d/
 sudo chmod 0440 /etc/sudoers.d/emonhub-sudoers
 echo "emonhub service control sudoers entry installed"

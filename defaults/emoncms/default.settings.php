@@ -57,21 +57,20 @@
         // On windows or shared hosting you will likely need to specify a different data directory--
         // Make sure that emoncms has write permission's to the datadirectory folders
         'phpfiwa'=>array(
-            'datadir' => '/var/opt/emoncms/phpfiwa/'
+            'datadir' => '/var/opt/emon/phpfiwa/'
         ),
         'phpfina'=>array(
-            'datadir' => '/var/opt/emoncms/phpfina/'
+            'datadir' => '/var/opt/emon/phpfina/'
         ),
         'phptimeseries'=>array(
-            'datadir' => '/var/opt/emoncms/phptimeseries/'
+            'datadir' => '/var/opt/emon/phptimeseries/'
         ),
         'cassandra'=>array(
             'keyspace' => 'emoncms'
         )
     );
-    
-    $emoncms_dir = "EMONCMS_DIR";
-    $openenergymonitor_dir = "OPENENERGYMONITOR_DIR";
+
+    $homedir = "USRDIR";
 
     // Max number of allowed different inputs per user. For limiting garbage rf data
     $max_node_id_limit = 32;

@@ -4,18 +4,18 @@ source config.ini
 echo "-------------------------------------------------------------"
 echo "emonHub update"
 echo "-------------------------------------------------------------"
-cd $openenergymonitor_dir
+cd $usrdir
 
-if [ -d $openenergymonitor_dir/emonhub ]; then
+if [ -d $usrdir/emonhub ]; then
 
-    echo "git pull $openenergymonitor_dir/emonhub"
-    cd $openenergymonitor_dir/emonhub
+    echo "git pull $usrdir/emonhub"
+    cd $usrdir/emonhub
     git branch
     git status
     git pull
     
     # can be used to change service source location in future
-    # sudo ln -sf $openenergymonitor_dir/emonhub/service/emonhub.service /lib/systemd/system
+    # sudo ln -sf $usrdir/emonhub/service/emonhub.service /lib/systemd/system
     
     sudo systemctl restart $service.service
     state=$(systemctl show $service | grep ActiveState)
@@ -23,7 +23,7 @@ if [ -d $openenergymonitor_dir/emonhub ]; then
     # ---------------------------------------------------------
     
     # echo "Running emonhub automatic node addition script"
-    # $openenergymonitor_dir/emonhub/conf/nodes/emonpi_auto_add_nodes.sh $openenergymonitor_dir
+    # $usrdir/emonhub/conf/nodes/emonpi_auto_add_nodes.sh $usrdir
 
 else
     echo "EmonHub not found"

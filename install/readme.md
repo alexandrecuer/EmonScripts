@@ -2,16 +2,13 @@
 
 The following build script is currently development in progress. It is already more comprehensive than the altenative debian install guides. To see what is installed open each script as listed below.
 
-**Todo**
+**Todo 1st release (Target: Late May 2019)**
 
-- Fix/test Wifi AP Support, results inconsistent so far
+- finalise logrotate config
+
+**Todo 2nd release**
+
 - SSL https://community.openenergymonitor.org/t/emonsd-next-steps-filesystem-logrotate/10693/188
-- Review .env configuration 
-- Review logrotate configuration
-- Review disk wear results from 1st release, investigate ext filesystem commit interval vs app level buffering
-- Review service install path: /lib/systemd/system or /etc/systemd/system
-
-[Forum: EmonSD build script progress update and alpha release](https://community.openenergymonitor.org/t/emonsd-build-script-progress-update-and-alpha-release/11222)
 
 The following build script can be used to build a fully fledged emoncms installation on debian operating systems, including: installation of LAMP server and related packages, redis, mqtt, emoncms core, emoncms modules, emonhub and if applicable: raspberrypi support for serial port and wifi access point.
 
@@ -95,12 +92,12 @@ On reboot, login and run:
 
 Create a directory that will be a mount point for the rw data partition
 
-    sudo mkdir /var/opt/emoncms
-    sudo chwon www-data /var/opt/emoncms
+    sudo mkdir /var/opt/emon
+    sudo chwon www-data /var/opt/emon
 
 Use modified fstab
 
-    wget https://raw.githubusercontent.com/openenergymonitor/EmonScripts/master/defaults/etc/fstab
+    wget https://raw.githubusercontent.com/openenergymonitor/EmonScripts/master/install/fstab
     sudo cp fstab /etc/fstab
     sudo reboot
 
